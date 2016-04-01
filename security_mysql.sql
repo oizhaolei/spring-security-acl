@@ -4,6 +4,7 @@ drop table if exists acl_entry;
 drop table if exists acl_object_identity;
 drop table if exists acl_class;
 drop table if exists acl_sid;
+drop table if exists persistent_logins;
 drop table if exists menus;
 drop table if exists contacts;
 drop table if exists group_authorities;
@@ -81,6 +82,13 @@ CREATE TABLE acl_entry (
 	CONSTRAINT fk_acl_entry_object FOREIGN KEY (acl_object_identity) REFERENCES acl_object_identity (id),
 	CONSTRAINT fk_acl_entry_acl FOREIGN KEY (sid) REFERENCES acl_sid (id)
 ) ENGINE=InnoDB;
+
+create table persistent_logins (
+	username varchar(64) not null,
+	series varchar(64) primary key,
+	token varchar(64) not null,
+	last_used timestamp not null
+);
 
 create table contacts (
     id bigint unsigned not null auto_increment primary key,

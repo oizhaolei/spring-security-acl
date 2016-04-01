@@ -96,6 +96,9 @@ public class SecurityGroupsTest extends AbstractSecurityTest {
 		jdbcUserDetailsManager.addUserToGroup(user.getUsername(), TEST_GROUP);
 		userGroupService.setAuthentication(user.getUsername());
 		assertTrue(securityTestService.testHasRoleUser());
+
+		UserDetails userT = jdbcUserDetailsManager.loadUserByUsername(user.getUsername());
+
 		assertTrue(securityTestService.testHasRoleGrupo());
 	}
 	

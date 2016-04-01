@@ -17,9 +17,9 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:applicationContext-common-business.xml
-            classpath:applicationContext-common-authorization.xml
-            classpath:applicationContext-security.xml
+            classpath:applicationContext.xml
+            classpath:spring-authorization.xml
+            classpath:spring-security.xml
         </param-value>
     </context-param>
 

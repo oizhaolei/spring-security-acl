@@ -34,6 +34,8 @@
         <headers/>
         <csrf/>
         <custom-filter ref="switchUserProcessingFilter" position="SWITCH_USER_FILTER"/>
+        <remember-me data-source-ref="dataSource"/>
+
     </http>
 
     <b:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
@@ -41,7 +43,18 @@
     <authentication-manager>
         <authentication-provider>
             <password-encoder ref="encoder"/>
-            <jdbc-user-service data-source-ref="dataSource"/>
+            <jdbc-user-service
+                    data-source-ref="dataSource"
+                    group-authorities-by-username-query=
+                            "select
+      				g.id, g.group_name, ga.authority
+      			from
+      				groups g, group_members gm, group_authorities ga
+      			where
+      				gm.username = ? and
+      				g.id = ga.group_id and
+      				g.id = gm.group_id"
+            />
         </authentication-provider>
     </authentication-manager>
 

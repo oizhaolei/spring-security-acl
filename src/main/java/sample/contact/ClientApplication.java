@@ -53,7 +53,7 @@ public class ClientApplication {
 	// ~ Methods
 	// ========================================================================================================
 
-	public void invokeContactManager(Authentication authentication, int nrOfCalls) {
+	public void invokeContactService(Authentication authentication, int nrOfCalls) {
 		StopWatch stopWatch = new StopWatch(nrOfCalls + " ContactService call(s)");
 		Map<String, ContactService> contactServices = this.beanFactory.getBeansOfType(
 				ContactService.class, true, true);
@@ -148,7 +148,7 @@ public class ClientApplication {
 					"clientContext.xml");
 			ClientApplication client = new ClientApplication(beanFactory);
 
-			client.invokeContactManager(new UsernamePasswordAuthenticationToken(username,
+			client.invokeContactService(new UsernamePasswordAuthenticationToken(username,
 					password), nrOfCalls);
 			System.exit(0);
 		}

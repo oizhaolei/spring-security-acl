@@ -23,7 +23,6 @@ import java.util.List;
  * @author Thiago
  *
  */
-@Service
 @Transactional
 public class UserGroupServiceImpl implements UserGroupService {
 	

@@ -14,7 +14,6 @@ import sample.contact.model.Menu;
  * @author Thiago
  *
  */
-@Service
 public class SecurityTestService {
 
 	private static final Logger log = LoggerFactory.getLogger(SecurityTestService.class);

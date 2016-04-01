@@ -32,7 +32,6 @@ import java.util.List;
  * @author Ben Alex
  */
 @Transactional
-@Service
 public class UserServiceImpl extends ApplicationObjectSupport implements
 		UserService {
 	// ~ Instance fields

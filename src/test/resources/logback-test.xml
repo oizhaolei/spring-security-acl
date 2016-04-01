@@ -5,6 +5,7 @@
 	</encoder>
   </appender>
 
+  <logger name="org.springframework.jdbc.core.JdbcTemplate" level="${sec.log.level}:-DEBUG"/>
   <logger name="org.springframework.security" level="${sec.log.level}:-WARN"/>
 
   <root level="${root.level}:-WARN">

@@ -48,7 +48,7 @@
     <bean class="sample.contact.dao.impl.MenuDaoImpl">
     </bean>
 
-    <bean class="sample.contact.service.impl.ContactServiceImpl">
+    <bean id="contactService" class="sample.contact.service.impl.ContactServiceImpl">
     </bean>
 
     <bean class="sample.contact.service.impl.UserGroupServiceImpl">

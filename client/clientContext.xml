@@ -13,14 +13,14 @@
 		<property name="location"><value>client.properties</value></property>
 	</bean>
 
-	<!-- Proxy for the RMI-exported ContactManager -->
+	<!-- Proxy for the RMI-exported ContactService -->
 	<!-- COMMENTED OUT BY DEFAULT TO AVOID CONFLICTS WITH APPLICATION SERVERS
 	<bean id="rmiProxy" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
 		<property name="serviceInterface">
-			<value>sample.contact.service.ContactManager</value>
+			<value>sample.contact.service.ContactService</value>
 		</property>
 		<property name="serviceUrl">
-			<value>rmi://${serverName}:${rmiPort}/contactManager</value>
+			<value>rmi://${serverName}:${rmiPort}/contactService</value>
 		</property>
 		<property name="remoteInvocationFactory">
 			<ref local="remoteInvocationFactory"/>
@@ -30,11 +30,11 @@
 	<bean id="remoteInvocationFactory" class="org.springframework.security.ui.rmi.ContextPropagatingRemoteInvocationFactory"/>
 	-->
 
-	<!-- Proxy for the HTTP-invoker-exported ContactManager -->
+	<!-- Proxy for the HTTP-invoker-exported ContactService-->
 	<!-- Spring's HTTP invoker uses Java serialization via HTTP	 -->
 	<bean id="httpInvokerProxy" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 		<property name="serviceInterface">
-			<value>sample.contact.service.ContactManager</value>
+			<value>sample.contact.service.ContactService</value>
 		</property>
 		<property name="serviceUrl">
 			<value>http://${serverName}:${httpPort}${contextPath}/remoting/ContactManager-httpinvoker</value>
@@ -48,24 +48,24 @@
 		 and credentials to a HTTP invoker BASIC authentication header -->
 	<bean id="httpInvokerRequestExecutor" class="org.springframework.security.core.context.httpinvoker.AuthenticationSimpleHttpInvokerRequestExecutor"/>
 
-	<!-- Proxy for the Hessian-exported ContactManager
+	<!-- Proxy for the Hessian-exported ContactService
 	<bean id="hessianProxy" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
 		<property name="serviceInterface">
-			<value>sample.contact.service.ContactManager</value>
+			<value>sample.contact.service.ContactService</value>
 		</property>
 		<property name="serviceUrl">
-			<value>http://${serverName}:${httpPort}${contextPath}/remoting/ContactManager-hessian</value>
+			<value>http://${serverName}:${httpPort}${contextPath}/remoting/ContactService-hessian</value>
 		</property>
 	</bean>
 	-->
 
-	<!-- Proxy for the Burlap-exported ContactManager
+	<!-- Proxy for the Burlap-exported ContactService
 	<bean id="burlapProxy" class="org.springframework.remoting.caucho.BurlapProxyFactoryBean">
 		<property name="serviceInterface">
-			<value>sample.contact.service.ContactManager</value>
+			<value>sample.contact.service.ContactService</value>
 		</property>
 		<property name="serviceUrl">
-			<value>http://${serverName}:${httpPort}${contextPath}/remoting/ContactManager-burlap</value>
+			<value>http://${serverName}:${httpPort}${contextPath}/remoting/ContactService-burlap</value>
 		</property>
 	</bean>
 	-->

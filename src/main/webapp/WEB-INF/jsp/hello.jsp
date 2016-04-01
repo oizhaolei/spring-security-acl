@@ -11,7 +11,7 @@
 <li><b>Domain object instance security</b>. The <code>Contact</code>, the
     main domain object in the application, has an access control list (ACL)
     that indicates who is allowed read, administer and delete the object.</li>
-<li><b>Method invocation security</b>. The <code>ContactManager</code> service
+<li><b>Method invocation security</b>. The <code>ContactService</code> service
    layer bean has a number of secured (protected) and public (unprotected)
    methods.</li>
 <li><b>Web request security</b>. The <code>/secure</code> URI path is protected
@@ -38,7 +38,7 @@ classes are necessarily aware of security. But no business use cases are.
 <p>Please excuse the lack of look 'n' feel polish in this application.
 It is about security, after all! :-)
 
-<p>To demonstrate a public method on <code>ContactManager</code>,
+<p>To demonstrate a public method on <code>ContactService</code>,
 here's a random <code>Contact</code>:
 <p>
 <code>

@@ -21,7 +21,6 @@ import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.*;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sample.contact.dao.ContactDao;
 import sample.contact.model.Contact;
@@ -38,7 +37,6 @@ import static sample.contact.Utils.getUsername;
  * @author Ben Alex
  */
 @Transactional
-@Service
 public class ContactServiceImpl extends ApplicationObjectSupport implements
 		ContactService {
 	// ~ Instance fields

@@ -38,7 +38,6 @@ import static sample.contact.Utils.getUsername;
  * @author Ben Alex
  */
 @Transactional
-@Service
 public class MenuServiceImpl extends ApplicationObjectSupport implements
 		MenuService {
 	// ~ Instance fields

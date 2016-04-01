@@ -8,26 +8,26 @@
 
     <!-- RMI exporter for the ContactService -->
     <!-- This could just as easily have been in
-         applicationContext-common-business.xml, because it doesn't rely on
+         applicationContext.xml, because it doesn't rely on
          DispatcherServlet or indeed any other HTTP services. It's in this
          application context simply for logical placement with other
          remoting exporters. -->
     <!-- COMMENTED OUT BY DEFAULT TO AVOID CONFLICTS WITH APPLICATION SERVERS
-    <bean id="contactManager-rmi" class="org.springframework.remoting.rmi.RmiServiceExporter">
-        <property name="service"><ref bean="contactManager"/></property>
+    <bean id="contactService-rmi" class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="service"><ref bean="contactService"/></property>
         <property name="serviceInterface">
             <value>sample.contact.service.ContactService</value>
         </property>
-        <property name="serviceName"><value>contactManager</value></property>
+        <property name="serviceName"><value>contactService</value></property>
         <property name="registryPort"><value>1099</value></property>
     </bean>
     -->
 
     <!-- HTTP invoker exporter for the ContactService -->
     <!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
-    <bean name="/ContactManager-httpinvoker"
+    <bean name="/ContactService-httpinvoker"
           class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-        <property name="service" ref="contactManager"/>
+        <property name="service" ref="contactService"/>
         <property name="serviceInterface" value="sample.contact.service.ContactService"/>
     </bean>
 
@@ -35,7 +35,7 @@
     <!-- Hessian is a slim binary HTTP remoting protocol -->
     <!--
         <bean name="/ContactService-hessian" class="org.springframework.remoting.caucho.HessianServiceExporter">
-            <property name="service" ref="contactManager"/>
+            <property name="service" ref="contactService"/>
             <property name="serviceInterface" value="sample.contact.service.ContactService"/>
         </bean>
     -->
@@ -43,7 +43,7 @@
     <!-- Burlap is a slim XML-based HTTP remoting protocol -->
     <!--
         <bean name="/ContactService-burlap" class="org.springframework.remoting.caucho.BurlapServiceExporter">
-            <property name="service" ref="contactManager"/>
+            <property name="service" ref="contactService"/>
             <property name="serviceInterface" value="sample.contact.service.ContactService"/>
         </bean>
     -->
