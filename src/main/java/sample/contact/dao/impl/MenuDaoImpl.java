@@ -47,15 +47,16 @@ public class MenuDaoImpl extends JdbcDaoSupport implements MenuDao {
 	// ~ Methods
 	// ========================================================================================================
 
-	public void create(final Menu menu) {
-		getJdbcTemplate().update("insert into menus values (?, ?, ?)",
+	public Menu create(final Menu menu) {
+		getJdbcTemplate().update("insert into menus (menu_name, menu_path)values (?, ?)",
 				new PreparedStatementSetter() {
 					public void setValues(PreparedStatement ps) throws SQLException {
-						ps.setLong(1, menu.getId());
-						ps.setString(2, menu.getName());
-						ps.setString(3, menu.getPath());
+						ps.setString(1, menu.getName());
+						ps.setString(2, menu.getPath());
 					}
 				});
+		long id =  getJdbcTemplate().queryForObject( "select last_insert_id()" , Long.class);
+		return getById(id);
 	}
 
 	public void delete(final Long menuId) {
@@ -67,8 +68,8 @@ public class MenuDaoImpl extends JdbcDaoSupport implements MenuDao {
 				});
 	}
 
-	public void update(final Menu menu) {
-		getJdbcTemplate().update(
+	public int update(final Menu menu) {
+		return getJdbcTemplate().update(
 				"update menus set menu_name = ?, menu_path = ? where id = ?",
 				new PreparedStatementSetter() {
 					public void setValues(PreparedStatement ps) throws SQLException {
@@ -77,6 +78,19 @@ public class MenuDaoImpl extends JdbcDaoSupport implements MenuDao {
 						ps.setLong(3, menu.getId());
 					}
 				});
+	}
+
+	@Override
+	public Menu save(Menu t) {
+		if(t.getId() == null || update(t) == 0) {
+			t = create(t);
+		}
+		return t;
+	}
+
+	@Override
+	public void deleteAll() {
+		getJdbcTemplate().update("delete from menus");
 	}
 
 	public List<Menu> findAll() {

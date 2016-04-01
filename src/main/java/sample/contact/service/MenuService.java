@@ -51,4 +51,17 @@ public interface MenuService {
 			+ "hasPermission(#id, 'sample.menu.model.Menu', admin)")
 	public Menu getById(Long id);
 
+
+	List<Menu> findAll();
+	Menu saveOrUpdate(Menu t);
+
+	void deleteAll();
+	@PreAuthorize("hasRole('ROLE_SUPERUSER')")
+	@PostFilter("hasPermission(filterObject, 'administration')")
+	List<Menu> testFilterMenu();
+
+	@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_SUPERUSER')")
+	@PostFilter("hasPermission(filterObject, 'read') or hasPermission(filterObject, admin)")
+	List<Menu> testFilterMenuWithReadPermission();
+
 }

@@ -41,20 +41,26 @@
         <property name="platformTransactionManager" ref="transactionManager"/>
     </bean>
 
-    <bean id="contactDao" class="sample.contact.dao.impl.ContactDaoImpl">
+    <bean class="sample.contact.dao.impl.ContactDaoImpl">
     </bean>
-    <bean id="userDao" class="sample.contact.dao.impl.UserDaoImpl">
+    <bean class="sample.contact.dao.impl.UserDaoImpl">
     </bean>
-
-    <bean id="contactManager" class="sample.contact.service.impl.ContactServiceImpl">
-    </bean>
-
-    <bean id="userGroupManager" class="sample.contact.service.impl.UserGroupServiceImpl">
+    <bean class="sample.contact.dao.impl.MenuDaoImpl">
     </bean>
 
-    <bean id="userManager" class="sample.contact.service.impl.UserServiceImpl">
+    <bean class="sample.contact.service.impl.ContactServiceImpl">
     </bean>
-    <bean id="securityTestService" class="sample.contact.service.impl.SecurityTestService">
+
+    <bean class="sample.contact.service.impl.UserGroupServiceImpl">
+    </bean>
+
+    <bean class="sample.contact.service.impl.UserServiceImpl">
+    </bean>
+    <bean class="sample.contact.service.impl.MenuServiceImpl">
+    </bean>
+    <bean class="sample.contact.service.impl.SecurityTestService">
+    </bean>
+    <bean class="sample.contact.service.impl.AclManagerImpl">
     </bean>
 
 </beans>

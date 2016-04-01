@@ -144,4 +144,28 @@ public class MenuServiceImpl extends ApplicationObjectSupport implements
 
 		logger.debug("Updated menu " + menu);
 	}
+
+
+	@Override
+	public List<Menu> findAll() {
+		return menuDao.findAll();
+	}
+
+	@Override
+	public Menu saveOrUpdate(Menu t) {
+		return menuDao.save(t);
+	}
+
+	@Override
+	public void deleteAll() {
+		menuDao.deleteAll();
+	}
+
+	public List<Menu> testFilterMenu() {
+		return menuDao.findAll();
+	}
+
+	public List<Menu> testFilterMenuWithReadPermission() {
+		return menuDao.findAll();
+	}
 }

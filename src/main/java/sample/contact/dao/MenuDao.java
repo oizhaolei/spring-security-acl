@@ -27,7 +27,7 @@ public interface MenuDao {
 	// ~ Methods
 	// ========================================================================================================
 
-	public void create(Menu menu);
+	public Menu create(Menu menu);
 
 	public void delete(Long menuId);
 
@@ -35,5 +35,9 @@ public interface MenuDao {
 
 	public Menu getById(Long id);
 
-	public void update(Menu menu);
+	public int update(Menu menu);
+
+	Menu save(Menu t);
+
+	void deleteAll();
 }
