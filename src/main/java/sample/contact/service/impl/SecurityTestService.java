@@ -6,7 +6,6 @@ package sample.contact.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
 import sample.contact.model.Menu;
 
 /**
@@ -18,9 +17,9 @@ public class SecurityTestService {
 
 	private static final Logger log = LoggerFactory.getLogger(SecurityTestService.class);
 
-	@PreAuthorize("hasRole('ROLE_SUPERUSER')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public boolean testHasRoleAdmin() {
-		log.info("access granted to hasRole('ROLE_SUPERUSER')");
+		log.info("access granted to hasRole('ROLE_ADMIN')");
 		return true;
 	}
 	

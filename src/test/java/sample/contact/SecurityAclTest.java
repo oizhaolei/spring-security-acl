@@ -51,7 +51,7 @@ public class SecurityAclTest extends AbstractSecurityTest {
 	
 	@Before
 	public void setup() {
-		userGroupManager.createUserWithAuthoriy(USER_ADMIN, "ROLE_SUPERUSER");
+		userGroupManager.createUserWithAuthoriy(USER_ADMIN, "ROLE_ADMIN");
 		userGroupManager.createUserWithAuthoriy(USER_USER, "ROLE_USER");
 		
     	Menu p1 = new Menu();
@@ -165,7 +165,7 @@ public class SecurityAclTest extends AbstractSecurityTest {
 			Menu newMenu = menuService.saveOrUpdate(m);
 
 			if (i < 2) {
-				aclManager.addPermission(Menu.class, newMenu.getId(), new GrantedAuthoritySid("ROLE_SUPERUSER"), BasePermission.ADMINISTRATION);
+				aclManager.addPermission(Menu.class, newMenu.getId(), new GrantedAuthoritySid("ROLE_ADMIN"), BasePermission.ADMINISTRATION);
 			} else {
 				aclManager.addPermission(Menu.class, newMenu.getId(), new GrantedAuthoritySid("ROLE_USER"), BasePermission.READ);
 			}

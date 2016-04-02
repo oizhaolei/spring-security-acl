@@ -101,14 +101,14 @@ public class DataSourcePopulator implements InitializingBean {
 		template.execute("INSERT INTO USERS VALUES('bob','$2a$06$zMgxlMf01SfYNcdx7n4NpeFlAGU8apCETz/i2C7VlYWu6IcNyn4Ay',TRUE);");
 		template.execute("INSERT INTO USERS VALUES('jane','$2a$05$ZrdS7yMhCZ1J.AAidXZhCOxdjD8LO/dhlv4FJzkXA6xh9gdEbBT/u',TRUE);");
 		template.execute("INSERT INTO AUTHORITIES VALUES('rod','ROLE_USER');");
-		template.execute("INSERT INTO AUTHORITIES VALUES('rod','ROLE_SUPERVISOR');");
+		template.execute("INSERT INTO AUTHORITIES VALUES('rod','ROLE_ADMIN');");
 		template.execute("INSERT INTO AUTHORITIES VALUES('dianne','ROLE_USER');");
 		template.execute("INSERT INTO AUTHORITIES VALUES('scott','ROLE_USER');");
 		template.execute("INSERT INTO AUTHORITIES VALUES('peter','ROLE_USER');");
 		template.execute("INSERT INTO AUTHORITIES VALUES('bill','ROLE_USER');");
 		template.execute("INSERT INTO AUTHORITIES VALUES('bob','ROLE_USER');");
 		template.execute("INSERT INTO AUTHORITIES VALUES('jane','ROLE_USER');");
-		template.execute("INSERT INTO AUTHORITIES VALUES('jane','ROLE_SUPERVISOR');");
+		template.execute("INSERT INTO AUTHORITIES VALUES('jane','ROLE_ADMIN');");
 
 		template.execute("INSERT INTO contacts VALUES (1, 'John Smith', 'john@somewhere.com');");
 		template.execute("INSERT INTO contacts VALUES (2, 'Michael Citizen', 'michael@xyz.com');");

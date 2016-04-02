@@ -82,6 +82,9 @@ dependencies {
             "org.springframework:spring-context-support:$springVersion",
             jstlDependencies,
             'mysql:mysql-connector-java:5.1.35',
+            'org.thymeleaf:thymeleaf:2.1.4.RELEASE',
+            'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE',
+            'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE',
             "ch.qos.logback:logback-classic:$logbackVersion",
             "net.sf.ehcache:ehcache:$ehcacheVersion"
 

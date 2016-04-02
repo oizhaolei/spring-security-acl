@@ -12,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sample.contact.service.UserGroupService;
 
@@ -27,7 +26,7 @@ import java.util.List;
 public class UserGroupServiceImpl implements UserGroupService {
 	
 	private static final String ADMINISTRADOR = "Administrador";
-	private static final String ROLE_SUPERUSER = "ROLE_SUPERUSER";
+	private static final String ROLE_ADMIN = "ROLE_ADMIN";
 	private static final String ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
 
 	@Autowired
@@ -44,7 +43,7 @@ public class UserGroupServiceImpl implements UserGroupService {
 		if (!allGroups.contains(group)) {
 			if (group.equalsIgnoreCase(ADMINISTRADOR)) {
 				List<GrantedAuthority> grantedAuthority = new ArrayList<>();
-				grantedAuthority.add(new SimpleGrantedAuthority(ROLE_SUPERUSER));
+				grantedAuthority.add(new SimpleGrantedAuthority(ROLE_ADMIN));
 				jdbcUserDetailsManager.createGroup(group, grantedAuthority);
 			} else {
 				List<GrantedAuthority> grantedAuthority = new ArrayList<>();

@@ -133,7 +133,7 @@ public class ContactServiceTest extends AbstractSecurityTest {
 
 	@Test
 	public void testrod() {
-		makeActiveUser("rod"); // has ROLE_SUPERVISOR
+		makeActiveUser("rod"); // has ROLE_ADMIN
 
 		List<Contact> contacts = contactService.getAll();
 

@@ -56,11 +56,12 @@ public interface MenuService {
 	Menu saveOrUpdate(Menu t);
 
 	void deleteAll();
-	@PreAuthorize("hasRole('ROLE_SUPERUSER')")
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostFilter("hasPermission(filterObject, 'administration')")
 	List<Menu> testFilterMenu();
 
-	@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_SUPERUSER')")
+	@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
 	@PostFilter("hasPermission(filterObject, 'read') or hasPermission(filterObject, admin)")
 	List<Menu> testFilterMenuWithReadPermission();
 

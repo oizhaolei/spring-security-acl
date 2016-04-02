@@ -15,23 +15,12 @@
  */
 package sample.contact.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.PermissionEvaluator;
-import org.springframework.security.acls.AclPermissionEvaluator;
-import org.springframework.security.acls.domain.BasePermission;
-import org.springframework.security.acls.model.Permission;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-import sample.contact.model.Contact;
-import sample.contact.service.ContactService;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 /**
  * Controller which handles simple, single request use cases such as index pages and
@@ -42,69 +31,93 @@ import java.util.Map;
  */
 @Controller
 public class IndexController {
-	private final static Permission[] HAS_DELETE = new Permission[]{
-			BasePermission.DELETE, BasePermission.ADMINISTRATION};
-	private final static Permission[] HAS_ADMIN = new Permission[]{BasePermission.ADMINISTRATION};
-
-	// ~ Instance fields
-	// ================================================================================================
-
-	@Autowired
-	private ContactService contactService;
-	@Autowired
-	private PermissionEvaluator permissionEvaluator;
-
-	// ~ Methods
-	// ========================================================================================================
-
-	/**
-	 * The public index page, used for unauthenticated users.
-	 */
-	@RequestMapping(value = "/hello.htm", method = RequestMethod.GET)
-	public ModelAndView displayPublicIndex() {
-		Contact rnd = contactService.getRandomContact();
-
-		return new ModelAndView("hello", "contact", rnd);
+	@RequestMapping("/")
+	public String root(Locale locale) {
+		return "redirect:/index.html";
 	}
 
 	/**
-	 * The index page for an authenticated user.
-	 * <p>
-	 * This controller displays a list of all the contacts for which the current user has
-	 * read or admin permissions. It makes a call to {@link ContactService#getAll()} which
-	 * automatically filters the returned list using Spring Security's ACL mechanism (see
-	 * the expression annotations on this interface for the details).
-	 * <p>
-	 * In addition to rendering the list of contacts, the view will also include a "Del"
-	 * or "Admin" link beside the contact, depending on whether the user has the
-	 * corresponding permissions (admin permission is assumed to imply delete here). This
-	 * information is stored in the model using the injected {@link PermissionEvaluator}
-	 * instance. The implementation should be an instance of
-	 * {@link AclPermissionEvaluator} or one which is compatible with Spring Security's
-	 * ACL module.
+	 * Home page.
 	 */
-	@RequestMapping(value = "/secure/index.htm", method = RequestMethod.GET)
-	public ModelAndView displayUserContacts() {
-		List<Contact> myContactsList = contactService.getAll();
-		Map<Contact, Boolean> hasDelete = new HashMap<Contact, Boolean>(
-				myContactsList.size());
-		Map<Contact, Boolean> hasAdmin = new HashMap<Contact, Boolean>(
-				myContactsList.size());
+	@RequestMapping("/index.html")
+	public String index() {
+		return "index.html";
+	}
 
-		Authentication user = SecurityContextHolder.getContext().getAuthentication();
+	/**
+	 * User zone index.
+	 */
+	@RequestMapping("/user/index.html")
+	public String userIndex() {
+		return "user/index.html";
+	}
 
-		for (Contact contact : myContactsList) {
-			hasDelete.put(contact, Boolean.valueOf(permissionEvaluator.hasPermission(
-					user, contact, HAS_DELETE)));
-			hasAdmin.put(contact, Boolean.valueOf(permissionEvaluator.hasPermission(user,
-					contact, HAS_ADMIN)));
+	/**
+	 * Administration zone index.
+	 */
+	@RequestMapping("/admin/index.html")
+	public String adminIndex() {
+		return "admin/index.html";
+	}
+
+	/**
+	 * Shared zone index.
+	 */
+	@RequestMapping("/shared/index.html")
+	public String sharedIndex() {
+		return "shared/index.html";
+	}
+
+	/**
+	 * Login form.
+	 */
+	@RequestMapping("/login.html")
+	public String login() {
+		return "login.html";
+	}
+
+	/**
+	 * Login form with error.
+	 */
+	@RequestMapping("/login-error.html")
+	public String loginError(Model model) {
+		model.addAttribute("loginError", true);
+		return "login.html";
+	}
+
+	/**
+	 * Simulation of an exception.
+	 */
+	@RequestMapping("/simulateError.html")
+	public void simulateError() {
+		throw new RuntimeException("This is a simulated error message");
+	}
+
+	/**
+	 * Error page.
+	 */
+	@RequestMapping("/error.html")
+	public String error(HttpServletRequest request, Model model) {
+		model.addAttribute("errorCode", "Error " + request.getAttribute("javax.servlet.error.status_code"));
+		Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
+		StringBuilder errorMessage = new StringBuilder();
+		errorMessage.append("<ul>");
+		while (throwable != null) {
+			errorMessage.append("<li>").append(escapeTags(throwable.getMessage())).append("</li>");
+			throwable = throwable.getCause();
 		}
+		errorMessage.append("</ul>");
+		model.addAttribute("errorMessage", errorMessage.toString());
+		return "error.html";
+	}
 
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("contacts", myContactsList);
-		model.put("hasDeletePermission", hasDelete);
-		model.put("hasAdminPermission", hasAdmin);
-
-		return new ModelAndView("index", "model", model);
+	/**
+	 * Substitute 'less than' and 'greater than' symbols by its HTML entities.
+	 */
+	private String escapeTags(String text) {
+		if (text == null) {
+			return null;
+		}
+		return text.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 	}
 }
