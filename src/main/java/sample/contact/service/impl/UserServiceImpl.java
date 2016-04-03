@@ -18,12 +18,20 @@ package sample.contact.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.security.acls.model.MutableAclService;
-import org.springframework.stereotype.Service;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.transaction.annotation.Transactional;
 import sample.contact.dao.UserDao;
 import sample.contact.service.ContactService;
 import sample.contact.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,13 +49,41 @@ public class UserServiceImpl extends ApplicationObjectSupport implements
 	private UserDao userDao;
 	@Autowired
 	private MutableAclService mutableAclService;
-	private int counter = 1000;
 
+
+	@Autowired
+	private JdbcUserDetailsManager jdbcUserDetailsManager;
 
 	@Transactional(readOnly = true)
-	public List<String> getAllRecipients() {
-		logger.debug("Returning all recipients");
+	public List<String> findAllUsers() {
 
-		return userDao.findAllPrincipals();
+		return userDao.findAllUsers();
+	}
+	@Transactional(readOnly = true)
+	public List<String> findAllAuthorities() {
+
+		return userDao.findAllAuthorities();
+	}
+
+
+	/**
+	 * Efetua a autenticação de um usuário já existente, buscando-o através do <code>loadUserByUsername</code>.
+	 *
+	 * @param username Username a ser autenticado.
+	 */
+	@Override
+	public void setAuthentication(String username) {
+		UserDetails user = jdbcUserDetailsManager.loadUserByUsername(username);
+		Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+	}
+	@Override
+	public void createUserWithAuthority(String username, String authority) {
+		if (!jdbcUserDetailsManager.userExists(username)) {
+			List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+			grantedAuthorities.add(new SimpleGrantedAuthority(authority));
+			UserDetails userDetails = new User(username, username, grantedAuthorities);
+			jdbcUserDetailsManager.createUser(userDetails);
+		}
 	}
 }

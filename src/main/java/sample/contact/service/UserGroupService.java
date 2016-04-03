@@ -19,13 +19,7 @@ public interface UserGroupService {
 	 * @param group
 	 */
 	public void createAndAuthenticateUser(String username, String group);
-	
-	/**
-	 * @param username
-	 * @param authority
-	 */
-	public void createUserWithAuthoriy(String username, String authority);
-	
+
 	/**
 	 * @return
 	 */
@@ -42,12 +36,5 @@ public interface UserGroupService {
 	 * @param roles
 	 */
 	public void addRolesToGroup(String group, String[] roles);
-	
-	/**
-	 * Efetua a autenticação de um usuário já existente, buscando-o através do <code>loadUserByUsername</code>.
-	 * 
-	 * @param username Username a ser autenticado.
-	 */
-	public void setAuthentication(String username);
 
 }

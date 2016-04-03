@@ -23,7 +23,6 @@ import java.util.Arrays;
  *
  */
 @Transactional
-@Service
 public class AclManagerImpl implements AclManager {
 	
 	private static final Logger log = LoggerFactory.getLogger(AclManagerImpl.class);

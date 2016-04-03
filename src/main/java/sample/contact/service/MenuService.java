@@ -38,7 +38,7 @@ public interface MenuService {
 	public void deletePermission(Menu menu, Sid recipient, Permission permission);
 
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public void create(Menu menu);
+	public Menu create(Menu menu);
 
 	@PreAuthorize("hasPermission(#menu, 'delete') or hasPermission(#menu, admin)")
 	public void delete(Menu menu);
@@ -59,10 +59,10 @@ public interface MenuService {
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostFilter("hasPermission(filterObject, 'administration')")
-	List<Menu> testFilterMenu();
+	List<Menu> findAllWithAdminPermission();
 
 	@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
 	@PostFilter("hasPermission(filterObject, 'read') or hasPermission(filterObject, admin)")
-	List<Menu> testFilterMenuWithReadPermission();
+	List<Menu> findAllWithReadPermission();
 
 }

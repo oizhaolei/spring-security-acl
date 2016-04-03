@@ -173,9 +173,16 @@ public class ContactServiceTest extends AbstractSecurityTest {
 
 	@Test
 	public void testUserManager() {
-		makeActiveUser("scott"); // has ROLE_USER
-		List<String> recipients = userService.getAllRecipients();
+		makeActiveUser("rod"); // has ROLE_ADMIN
+		List<String> recipients = userService.findAllUsers();
 		assertThat(recipients).hasSize(7);
+
+		makeActiveUser("scott"); // has ROLE_USER
+		try {
+			userService.findAllUsers();
+			fail("no permission");
+		} catch (Exception e) {
+		}
 
 	}
 }

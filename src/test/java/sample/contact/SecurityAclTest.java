@@ -20,6 +20,7 @@ import sample.contact.model.Menu;
 import sample.contact.service.AclManager;
 import sample.contact.service.MenuService;
 import sample.contact.service.UserGroupService;
+import sample.contact.service.UserService;
 import sample.contact.service.impl.SecurityTestService;
 
 import static org.junit.Assert.*;
@@ -32,6 +33,8 @@ public class SecurityAclTest extends AbstractSecurityTest {
 	
 	@Autowired
 	private MenuService menuService;
+	@Autowired
+	private UserService userManager;
 	@Autowired
 	private UserGroupService userGroupManager;
 	@Autowired
@@ -51,15 +54,15 @@ public class SecurityAclTest extends AbstractSecurityTest {
 	
 	@Before
 	public void setup() {
-		userGroupManager.createUserWithAuthoriy(USER_ADMIN, "ROLE_ADMIN");
-		userGroupManager.createUserWithAuthoriy(USER_USER, "ROLE_USER");
+		userManager.createUserWithAuthority(USER_ADMIN, "ROLE_ADMIN");
+		userManager.createUserWithAuthority(USER_USER, "ROLE_USER");
 		
     	Menu p1 = new Menu();
 		p1.setName("Menu");
 		p1.setPath("/menu");
 		menu = menuService.saveOrUpdate(p1);
-		
-		userGroupManager.setAuthentication(USER_ADMIN);
+
+		userManager.setAuthentication(USER_ADMIN);
 		aclManager.addPermission(Menu.class, menu.getId(), new PrincipalSid(USER_ADMIN), BasePermission.ADMINISTRATION);
 	}
 
@@ -92,40 +95,40 @@ public class SecurityAclTest extends AbstractSecurityTest {
 	
 	@Test
 	public void testAdminHasAccessToMethodHasRoleAdmin() {
-		userGroupManager.setAuthentication(USER_ADMIN);
+		userManager.setAuthentication(USER_ADMIN);
 		assertTrue(securityTestService.testHasRoleAdmin());
 	}
 	
 	@Test
 	public void testUserHasNoAccessToMethodHasRoleAdmin() {
-		userGroupManager.setAuthentication(USER_USER);
+		userManager.setAuthentication(USER_USER);
 		exception.expect(AccessDeniedException.class);
 		securityTestService.testHasRoleAdmin();
 	}
 	
 	@Test
 	public void testAdminHasAccessToMethodHasPermissionAdministration() {
-		userGroupManager.setAuthentication(USER_ADMIN);
+		userManager.setAuthentication(USER_ADMIN);
 		assertTrue(securityTestService.testHasPermissionAdministrationOnMenu(menu));
 	}
 	
 	@Test
 	public void testUserHasNoAccessToMethodHasPermissionAdministration() {
-		userGroupManager.setAuthentication(USER_USER);
+		userManager.setAuthentication(USER_USER);
 		exception.expect(AccessDeniedException.class);
 		securityTestService.testHasPermissionAdministrationOnMenu(menu);
 	}
 	
 	@Test
 	public void testUserHasNoAccessToMethodHasPermissionRead() {
-		userGroupManager.setAuthentication(USER_USER);
+		userManager.setAuthentication(USER_USER);
 		exception.expect(AccessDeniedException.class);
 		securityTestService.testHasPermissionReadOnMenu(menu);
 	}
 	
 	@Test
 	public void testAdminHasNoAccessToMethodPermissionRead() {
-		userGroupManager.setAuthentication(USER_ADMIN);
+		userManager.setAuthentication(USER_ADMIN);
 		exception.expect(AccessDeniedException.class);
 		securityTestService.testHasPermissionReadOnMenu(menu);
 	}
@@ -133,20 +136,20 @@ public class SecurityAclTest extends AbstractSecurityTest {
 	@Test
 	public void testUserHasAclPermissionBasedOnRole() {
 		aclManager.addPermission(Menu.class, menu.getId(), new GrantedAuthoritySid("ROLE_USER"), BasePermission.READ);
-		userGroupManager.setAuthentication(USER_USER);
+		userManager.setAuthentication(USER_USER);
 		assertTrue(securityTestService.testHasPermissionReadOnMenu(menu));
 	}
 	
 	@Test
 	public void testRemoveAclPermissionFromUser() {
 		aclManager.addPermission(Menu.class, menu.getId(), new GrantedAuthoritySid("ROLE_USER"), BasePermission.READ);
-		userGroupManager.setAuthentication(USER_USER);
+		userManager.setAuthentication(USER_USER);
 		assertTrue(securityTestService.testHasPermissionReadOnMenu(menu));
 		
-		userGroupManager.setAuthentication(USER_ADMIN);
+		userManager.setAuthentication(USER_ADMIN);
 		aclManager.removePermission(Menu.class, menu.getId(), new GrantedAuthoritySid("ROLE_USER"), BasePermission.READ);
 		
-		userGroupManager.setAuthentication(USER_USER);
+		userManager.setAuthentication(USER_USER);
 		exception.expect(AccessDeniedException.class);
 		securityTestService.testHasPermissionReadOnMenu(menu);
 	}
@@ -173,18 +176,18 @@ public class SecurityAclTest extends AbstractSecurityTest {
 
 		assertEquals(menuService.findAll().size(),5);
 
-		userGroupManager.setAuthentication(USER_ADMIN);
-		assertEquals(menuService.testFilterMenuWithReadPermission().size(),2);
+		userManager.setAuthentication(USER_ADMIN);
+		assertEquals(menuService.findAllWithReadPermission().size(),2);
 
-//		userGroupManager.setAuthentication(USER_USER);
-//		assertThat(menuService.testFilterMenuWithReadPermission().size(), is(equalTo(3)));
+//		userManager.setAuthentication(USER_USER);
+//		assertThat(menuService.findAllWithReadPermission().size(), is(equalTo(3)));
 
-		userGroupManager.setAuthentication(USER_ADMIN);
-		assertEquals(menuService.testFilterMenu().size(), 2);
+		userManager.setAuthentication(USER_ADMIN);
+		assertEquals(menuService.findAllWithAdminPermission().size(), 2);
 
-		userGroupManager.setAuthentication(USER_USER);
+		userManager.setAuthentication(USER_USER);
 		exception.expect(AccessDeniedException.class);
-		menuService.testFilterMenu();
+		menuService.findAllWithAdminPermission();
 
 	}
 	

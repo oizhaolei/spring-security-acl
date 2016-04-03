@@ -25,7 +25,7 @@ import java.util.List;
  */
 public interface UserDao {
 
-	public List<String> findAllPrincipals();
+	public List<String> findAllUsers();
 
-	public List<String> findAllRoles();
+	public List<String> findAllAuthorities();
 }

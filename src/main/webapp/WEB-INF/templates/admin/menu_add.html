@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head><title>Add New Menu</title></head>
+<body>
+<h1>Add Menu</h1>
+<form method="post">
+  <table width="95%" bgcolor="f8f8ff" border="0" cellspacing="0" cellpadding="5">
+    <tr>
+      <td alignment="right" width="20%">Name:</td>
+        <td width="20%">
+          <input type="text" name="name" th:value="${webMenu.name}" />
+        </td>
+    </tr>
+    <tr>
+      <td alignment="right" width="20%">Path:</td>
+        <td width="20%">
+          <input type="text" name="path" th:value="${webMenu.path}" />
+        </td>
+    </tr>
+  </table>
+
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+  <input name="execute" type="submit" alignment="center" value="Execute" />
+</form>
+</body>
+</html>

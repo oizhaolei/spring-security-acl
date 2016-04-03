@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Thymeleafexamples - Spring security</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
+    </head>
+    <body>
+        <div th:substituteby="index.html::logout"></div>
+        <p th:text="${model.group}">group</p>
+        <p>Users
+            <table>
+                <tbody>
+                <tr th:each="user,rowStat : ${model.users}">
+                    <td th:text="${rowStat.count}">1</td>
+                    <td><a th:href="@{/admin/user.html(user=${user})}" th:text="${user}">Thymus Thymi</a> </td>
+                </tr>
+                </tbody>
+            </table>
+        </p>
+        <p><a href="../index.html" th:href="@{/index.html}">Back to home page</a></p>
+    </body>
+</html>

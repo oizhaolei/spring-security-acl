@@ -15,12 +15,21 @@
  */
 package sample.contact.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import sample.contact.model.Menu;
+import sample.contact.service.MenuService;
+import sample.contact.service.UserGroupService;
+import sample.contact.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Controller which handles simple, single request use cases such as index pages and
@@ -31,6 +40,12 @@ import java.util.Locale;
  */
 @Controller
 public class IndexController {
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private UserGroupService userGroupService;
+	@Autowired
+	private MenuService menuService;
 	@RequestMapping("/")
 	public String root(Locale locale) {
 		return "redirect:/index.html";
@@ -50,14 +65,6 @@ public class IndexController {
 	@RequestMapping("/user/index.html")
 	public String userIndex() {
 		return "user/index.html";
-	}
-
-	/**
-	 * Administration zone index.
-	 */
-	@RequestMapping("/admin/index.html")
-	public String adminIndex() {
-		return "admin/index.html";
 	}
 
 	/**

@@ -21,14 +21,12 @@ import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.*;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sample.contact.dao.MenuDao;
 import sample.contact.model.Menu;
 import sample.contact.service.MenuService;
 
 import java.util.List;
-import java.util.Random;
 
 import static sample.contact.Utils.getUsername;
 
@@ -47,7 +45,6 @@ public class MenuServiceImpl extends ApplicationObjectSupport implements
 	private MenuDao menuDao;
 	@Autowired
 	private MutableAclService mutableAclService;
-	private int counter = 1000;
 
 
 	public void addPermission(Menu menu, Sid recipient, Permission permission) {
@@ -67,10 +64,9 @@ public class MenuServiceImpl extends ApplicationObjectSupport implements
 				+ " menu " + menu);
 	}
 
-	public void create(Menu menu) {
+	public Menu create(Menu menu) {
 		// Create the Menu itself
-		menu.setId(new Long(counter++));
-		menuDao.create(menu);
+		menu = menuDao.save(menu);
 
 		// Grant the current principal administrative permission to the menu
 		addPermission(menu, new PrincipalSid(getUsername()),
@@ -80,6 +76,7 @@ public class MenuServiceImpl extends ApplicationObjectSupport implements
 			logger.debug("Created menu " + menu
 					+ " and granted admin permission to recipient " + getUsername());
 		}
+		return menu;
 	}
 
 	public void delete(Menu menu) {
@@ -160,11 +157,11 @@ public class MenuServiceImpl extends ApplicationObjectSupport implements
 		menuDao.deleteAll();
 	}
 
-	public List<Menu> testFilterMenu() {
+	public List<Menu> findAllWithAdminPermission() {
 		return menuDao.findAll();
 	}
 
-	public List<Menu> testFilterMenuWithReadPermission() {
+	public List<Menu> findAllWithReadPermission() {
 		return menuDao.findAll();
 	}
 }

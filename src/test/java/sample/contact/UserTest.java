@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import sample.contact.service.UserGroupService;
+import sample.contact.service.UserService;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -18,7 +19,9 @@ import static org.junit.Assert.assertTrue;
  * 
  */
 public class UserTest extends AbstractSecurityTest {
-	
+	@Autowired
+	protected UserService userService;
+
 	/**
 	 * 
 	 */
@@ -34,9 +37,9 @@ public class UserTest extends AbstractSecurityTest {
 	
 	@Before
 	public void setup() {
-		userGroupService.createUserWithAuthoriy(USER_NAME, ROLE_USER);
+		userService.createUserWithAuthority(USER_NAME, ROLE_USER);
 		user = jdbcUserDetailsManager.loadUserByUsername(USER_NAME);
-		userGroupService.setAuthentication(USER_NAME);
+		userService.setAuthentication(USER_NAME);
 	}
 	
 	@Test

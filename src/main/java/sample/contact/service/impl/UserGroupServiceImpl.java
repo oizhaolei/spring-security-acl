@@ -57,19 +57,9 @@ public class UserGroupServiceImpl implements UserGroupService {
 			jdbcUserDetailsManager.addUserToGroup(username, group);
 		}
 		
-		setAuthentication(username);
+		//setAuthentication(username);
 	}
-	
-	@Override
-	public void createUserWithAuthoriy(String username, String authority) {
-		if (!jdbcUserDetailsManager.userExists(username)) {
-			List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-			grantedAuthorities.add(new SimpleGrantedAuthority(authority));
-			UserDetails userDetails = new User(username, username, grantedAuthorities);
-			jdbcUserDetailsManager.createUser(userDetails);
-		}
-	}
-	
+
 	@Override
 	public List<String> listAllGroups() {
 		List<String> foundGroups = jdbcUserDetailsManager.findAllGroups();
@@ -104,17 +94,5 @@ public class UserGroupServiceImpl implements UserGroupService {
 		for (GrantedAuthority grantedAuthority : groupAuthorities) {
 			jdbcUserDetailsManager.removeGroupAuthority(group, grantedAuthority);
 		}
-	}
-
-	/**
-	 * Efetua a autenticação de um usuário já existente, buscando-o através do <code>loadUserByUsername</code>.
-	 * 
-	 * @param username Username a ser autenticado.
-	 */
-	@Override
-	public void setAuthentication(String username) {
-		UserDetails user = jdbcUserDetailsManager.loadUserByUsername(username);
-		Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
-		SecurityContextHolder.getContext().setAuthentication(authentication);
 	}
 }

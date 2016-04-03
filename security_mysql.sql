@@ -15,6 +15,7 @@ drop table if exists groups;
 create table users (
     username varchar(50) not null primary key,
     password varchar(60) not null,
+    realname varchar(60) not null,
     enabled boolean not null
 ) engine = InnoDb;
 

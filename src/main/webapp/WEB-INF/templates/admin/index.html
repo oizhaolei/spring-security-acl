@@ -10,6 +10,53 @@
         <h1>Thymeleafexamples - Spring security</h1>
         <p>This is the <b>administration</b> zone</p>
         <p>Only authenticated users with role <b>ADMIN</b> are allowed to see this page.</p>
+
+        <p><a th:href="@{/admin/user_add.html}">Add Users</a>
+            <table>
+                <tbody>
+                <tr th:each="user,rowStat : ${users}">
+                    <td><a th:href="@{/admin/user.html(user=${user})}"  th:text="${rowStat.count}">1</a></td>
+                    <td>
+                        <a th:href="@{/admin/user.html(user=${user})}" th:text="${users[__${rowStat.index}__]}">Thymus Thymi</a>
+                    </td>
+                    <td>
+                        <button type="submit" name="removeRow" th:value="${user}">Remove row</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </p>
+        <p>Groups
+            <table>
+                <tbody>
+                <tr th:each="group,rowStat : ${groups}">
+                    <td th:text="${rowStat.count}">1</td>
+                    <td><a th:href="@{/admin/group.html(group=${group})}" th:text="${group}">Thymus Thymi</a> </td>
+                </tr>
+                </tbody>
+            </table>
+        </p>
+        <p>Roles
+            <table>
+                <tbody>
+                <tr th:each="authority,rowStat : ${authorities}">
+                    <td th:text="${rowStat.count}">1</td>
+                    <td><a th:href="@{/admin/role.html(role=${authority})}" th:text="${authority}">Thymus Thymi</a> </td>
+                </tr>
+                </tbody>
+            </table>
+        </p>
+        <p><a th:href="@{/admin/menu_add.html}">Add Menus</a>
+            <table>
+                <tbody>
+                <tr th:each="menu,rowStat : ${menus}">
+                    <td th:text="${rowStat.count}">1</td>
+                    <td><a th:href="@{/admin/menu.html(menu=${menu.name})}" th:text="${menu.name}">Thymus Thymi</a> </td>
+                    <td th:text="${menu.path}">path</td>
+                </tr>
+                </tbody>
+            </table>
+        </p>
         <p><a href="../index.html" th:href="@{/index.html}">Back to home page</a></p>
     </body>
 </html>

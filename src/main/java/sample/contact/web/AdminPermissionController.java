@@ -173,7 +173,7 @@ public final class AdminPermissionController implements MessageSourceAware {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("", messages.getMessage("select.pleaseSelect", "-- please select --"));
 
-		for (String recipient : userService.getAllRecipients()) {
+		for (String recipient : userService.findAllUsers()) {
 			map.put(recipient, recipient);
 		}
 

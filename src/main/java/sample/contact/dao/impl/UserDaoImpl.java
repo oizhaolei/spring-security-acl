@@ -40,12 +40,12 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
 		setDataSource(dataSource);
 	}
 
-	public List<String> findAllPrincipals() {
+	public List<String> findAllUsers() {
 		return getJdbcTemplate().queryForList(
 				"select username from users order by username", String.class);
 	}
 
-	public List<String> findAllRoles() {
+	public List<String> findAllAuthorities() {
 		return getJdbcTemplate().queryForList(
 				"select distinct authority from authorities order by authority",
 				String.class);
