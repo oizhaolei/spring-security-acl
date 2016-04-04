@@ -18,33 +18,32 @@ package sample.contact.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.acls.domain.BasePermission;
-import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.domain.ObjectIdentityImpl;
+import org.springframework.security.acls.model.Acl;
+import org.springframework.security.acls.model.AclService;
+import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import sample.contact.model.Menu;
 import sample.contact.model.Menu;
 import sample.contact.service.AclManager;
 import sample.contact.service.MenuService;
 import sample.contact.service.UserGroupService;
 import sample.contact.service.UserService;
 import sample.contact.web.model.WebMenu;
-import sample.contact.web.model.WebMenu;
-import sample.contact.web.validator.WebMenuValidator;
 import sample.contact.web.validator.WebMenuValidator;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Controller which handles simple, single request use cases such as index pages and
@@ -56,6 +55,9 @@ import java.util.*;
 @Controller
 public class AdminController {
 	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
+	private final Validator validator = new WebMenuValidator();
+	@Autowired
+	private AclService aclService;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -85,6 +87,7 @@ public class AdminController {
 
 		return new ModelAndView ("admin/index.html", model);
 	}
+
 	@RequestMapping("/admin/user.html")
 	public ModelAndView user(@RequestParam("user") String user) {
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -94,8 +97,23 @@ public class AdminController {
 		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 		model.put("authorities", authorities);
 
-		return new ModelAndView ("admin/user.html", "model", model);
+		return new ModelAndView("admin/user.html", model);
 	}
+
+	@RequestMapping("/admin/menu.html")
+	public ModelAndView menu(@RequestParam("menu") Long id) {
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("menu", id);
+
+		ObjectIdentity identity = new ObjectIdentityImpl(Menu.class.getCanonicalName(), id);
+		Acl acl = aclService.readAclById(identity);
+
+		model.put("owner", acl.getOwner());
+		model.put("entries", acl.getEntries());
+
+		return new ModelAndView("admin/menu.html", model);
+	}
+
 	@RequestMapping("/admin/group.html")
 	public ModelAndView group(@RequestParam("group") String group) {
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -104,9 +122,8 @@ public class AdminController {
 		List<String> users = jdbcUserDetailsManager.findUsersInGroup(group);
 		model.put("users",users);
 
-		return new ModelAndView ("admin/group.html", "model", model);
+		return new ModelAndView("admin/group.html", model);
 	}
-	private final Validator validator = new WebMenuValidator();
 
 	/**
 	 * Displays the "add contact" form.

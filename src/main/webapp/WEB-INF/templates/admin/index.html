@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>Thymeleafexamples - Spring security</title>
         <meta charset="utf-8" />
@@ -51,7 +51,7 @@
                 <tbody>
                 <tr th:each="menu,rowStat : ${menus}">
                     <td th:text="${rowStat.count}">1</td>
-                    <td><a th:href="@{/admin/menu.html(menu=${menu.name})}" th:text="${menu.name}">Thymus Thymi</a> </td>
+                    <td><a th:href="@{/admin/menu.html(menu=${menu.id})}" th:text="${menu.name}">Thymus Thymi</a></td>
                     <td th:text="${menu.path}">path</td>
                 </tr>
                 </tbody>

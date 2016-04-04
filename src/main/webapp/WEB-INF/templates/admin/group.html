@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>Thymeleafexamples - Spring security</title>
         <meta charset="utf-8" />
@@ -7,11 +7,11 @@
     </head>
     <body>
         <div th:substituteby="index.html::logout"></div>
-        <p th:text="${model.group}">group</p>
+        <p th:text="${group}">group</p>
         <p>Users
             <table>
                 <tbody>
-                <tr th:each="user,rowStat : ${model.users}">
+                <tr th:each="user,rowStat : ${users}">
                     <td th:text="${rowStat.count}">1</td>
                     <td><a th:href="@{/admin/user.html(user=${user})}" th:text="${user}">Thymus Thymi</a> </td>
                 </tr>
