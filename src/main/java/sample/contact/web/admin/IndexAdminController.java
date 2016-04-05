@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.model.AclService;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -97,7 +98,7 @@ public class IndexAdminController {
 	}
 
 	@RequestMapping(value = "/admin/index.html", params = {"user_save"}, method = RequestMethod.POST)
-	public String userSave(WebUser form, BindingResult result) {
+	public String userSave(WebUser form, BindingResult result, final ModelMap model) {
 
 		validator.validate(form, result);
 
@@ -108,6 +109,7 @@ public class IndexAdminController {
 
 		log.debug("save user: " + form);
 		userService.createUserWithAuthority(form.getUsername(), form.getPassword(), "ROLE_USER");
+		form.clear();
 		return "admin/index.html";
 	}
 

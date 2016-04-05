@@ -63,4 +63,12 @@ public class WebUser {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+	public void clear() {
+		username = "";
+		password = "";
+		realname = "";
+		role = "";
+
+	}
 }

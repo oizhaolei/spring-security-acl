@@ -45,7 +45,13 @@ public class WebUserValidator implements Validator {
 		if ((wc.getPassword() == null) || (wc.getPassword().length() < 3)
 				|| (wc.getPassword().length() > 50)) {
 			errors.rejectValue("password", "err.email",
-					"Path 3-50 characters is required. *");
+					"password 3-50 characters is required. *");
+		}
+
+		if ((wc.getRealname() == null) || (wc.getRealname().length() < 3)
+				|| (wc.getRealname().length() > 50)) {
+			errors.rejectValue("realname", "err.email",
+					"realname 3-50 characters is required. *");
 		}
 	}
 }
