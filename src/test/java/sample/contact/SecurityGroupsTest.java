@@ -30,7 +30,11 @@ import static org.junit.Assert.assertTrue;
  *
  */
 public class SecurityGroupsTest extends AbstractSecurityTest {
-	
+
+	private static final String TEST_GROUP = "testGroup";
+	private static final String USER_USER = "user";
+	@Rule
+	public ExpectedException expectedException = ExpectedException.none();
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -39,21 +43,14 @@ public class SecurityGroupsTest extends AbstractSecurityTest {
 	private SecurityTestService securityTestService;
 	@Autowired
 	private JdbcUserDetailsManager jdbcUserDetailsManager;
-	
-	private static final String TEST_GROUP = "testGroup";
-	private static final String USER_USER = "user";
-	
 	private UserDetails user = null;
 	private List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-	
-	@Rule
-	public ExpectedException expectedException = ExpectedException.none();
 	
 	@Before
 	public void setup() {
 		authorities.add(new SimpleGrantedAuthority("ROLE_GRUPO"));
 		jdbcUserDetailsManager.createGroup(TEST_GROUP, authorities);
-		userService.createUserWithAuthority(USER_USER, "ROLE_USER");
+		userService.createUserWithAuthority(USER_USER, USER_USER, "ROLE_USER");
 		user = jdbcUserDetailsManager.loadUserByUsername(USER_USER);
 	}
 	

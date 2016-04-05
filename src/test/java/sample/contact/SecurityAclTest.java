@@ -30,7 +30,11 @@ import static org.junit.Assert.*;
  *
  */
 public class SecurityAclTest extends AbstractSecurityTest {
-	
+
+	private static final String USER_ADMIN = "admin";
+	private static final String USER_USER = "user";
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
 	@Autowired
 	private MenuService menuService;
 	@Autowired
@@ -43,19 +47,12 @@ public class SecurityAclTest extends AbstractSecurityTest {
 	private JdbcUserDetailsManager jdbcUserDetailsManager;
 	@Autowired
 	private AclManager aclManager;
-	
-	private static final String USER_ADMIN = "admin";
-	private static final String USER_USER = "user";
-	
 	private Menu menu = null;
-	
-	@Rule
-	public ExpectedException exception = ExpectedException.none();
 	
 	@Before
 	public void setup() {
-		userManager.createUserWithAuthority(USER_ADMIN, "ROLE_ADMIN");
-		userManager.createUserWithAuthority(USER_USER, "ROLE_USER");
+		userManager.createUserWithAuthority(USER_ADMIN, USER_ADMIN, "ROLE_ADMIN");
+		userManager.createUserWithAuthority(USER_USER, USER_USER, "ROLE_USER");
 		
     	Menu p1 = new Menu();
 		p1.setName("Menu");

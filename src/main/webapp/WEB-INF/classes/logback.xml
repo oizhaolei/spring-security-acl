@@ -5,6 +5,7 @@
         </encoder>
     </appender>
 
+    <logger name="org.springframework.jdbc.core" level="TRACE"/>
      <logger name="sample.contact" level="DEBUG"/>
 
     <root level="WARN">

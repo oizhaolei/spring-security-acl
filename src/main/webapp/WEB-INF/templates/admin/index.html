@@ -11,18 +11,44 @@
         <p>This is the <b>administration</b> zone</p>
         <p>Only authenticated users with role <b>ADMIN</b> are allowed to see this page.</p>
 
-        <p><a th:href="@{/admin/user_add.html}">Add Users</a>
-            <table>
+        <p><a th:href="@{/admin/index.html(user_add=true)}">Add User</a>
+
+        <table>
                 <tbody>
                 <tr th:each="user,rowStat : ${users}">
                     <td><a th:href="@{/admin/user.html(user=${user})}"  th:text="${rowStat.count}">1</a></td>
                     <td>
-                        <a th:href="@{/admin/user.html(user=${user})}" th:text="${users[__${rowStat.index}__]}">Thymus Thymi</a>
+                        <a th:href="@{/admin/user.html(user=${user})}" th:text="${user}">Thymus Thymi</a>
                     </td>
                     <td>
-                        <button type="submit" name="removeRow" th:value="${user}">Remove row</button>
+                        <button type="submit" name="removeRow" th:value="${user}">-</button>
                     </td>
                 </tr>
+                <form method="post" th:if="${webUser} != null">
+                    <table width="95%" bgcolor="f8f8ff" border="0" cellspacing="0" cellpadding="5">
+                        <tr>
+                            <td alignment="right" width="20%">username:</td>
+                            <td width="20%">
+                                <input type="text" name="username" th:value="${webUser.username}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td alignment="right" width="20%">password:</td>
+                            <td width="20%">
+                                <input type="text" name="password" th:value="${webUser.password}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td alignment="right" width="20%">realname:</td>
+                            <td width="20%">
+                                <input type="text" name="realname" th:value="${webUser.realname}"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <input name="user_save" type="submit" alignment="center" value="Execute"/>
+                </form>
                 </tbody>
             </table>
         </p>

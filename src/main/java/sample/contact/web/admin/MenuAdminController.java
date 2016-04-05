@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sample.contact.web;
+package sample.contact.web.admin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +22,6 @@ import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.model.Acl;
 import org.springframework.security.acls.model.AclService;
 import org.springframework.security.acls.model.ObjectIdentity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -40,9 +38,7 @@ import sample.contact.service.UserService;
 import sample.contact.web.model.WebMenu;
 import sample.contact.web.validator.WebMenuValidator;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,8 +49,8 @@ import java.util.Map;
  * @since 3.0
  */
 @Controller
-public class AdminController {
-	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
+public class MenuAdminController {
+	private static final Logger log = LoggerFactory.getLogger(MenuAdminController.class);
 	private final Validator validator = new WebMenuValidator();
 	@Autowired
 	private AclService aclService;
@@ -69,36 +65,6 @@ public class AdminController {
 	@Autowired
 	private AclManager aclManager;
 
-	/**
-	 * Administration zone index.
-	 */
-	@RequestMapping("/admin/index.html")
-	public ModelAndView adminIndex() {
-		Map<String, Object> model = new HashMap<String, Object>();
-
-		List<String> users = userService.findAllUsers();
-		model.put("users", users);
-		List<String> groups = userGroupService.listAllGroups();
-		model.put("groups", groups);
-		List<Menu> menus = menuService.findAllWithAdminPermission();
-		model.put("menus", menus);
-		List<String> roles = userService.findAllAuthorities();
-		model.put("authorities", roles);
-
-		return new ModelAndView ("admin/index.html", model);
-	}
-
-	@RequestMapping("/admin/user.html")
-	public ModelAndView user(@RequestParam("user") String user) {
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("user", user);
-
-		UserDetails userDetails = jdbcUserDetailsManager.loadUserByUsername(user);
-		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-		model.put("authorities", authorities);
-
-		return new ModelAndView("admin/user.html", model);
-	}
 
 	@RequestMapping("/admin/menu.html")
 	public ModelAndView menu(@RequestParam("menu") Long id) {
@@ -112,17 +78,6 @@ public class AdminController {
 		model.put("entries", acl.getEntries());
 
 		return new ModelAndView("admin/menu.html", model);
-	}
-
-	@RequestMapping("/admin/group.html")
-	public ModelAndView group(@RequestParam("group") String group) {
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("group", group);
-
-		List<String> users = jdbcUserDetailsManager.findUsersInGroup(group);
-		model.put("users",users);
-
-		return new ModelAndView("admin/group.html", model);
 	}
 
 	/**

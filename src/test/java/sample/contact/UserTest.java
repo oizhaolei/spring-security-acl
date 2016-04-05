@@ -19,15 +19,13 @@ import static org.junit.Assert.assertTrue;
  * 
  */
 public class UserTest extends AbstractSecurityTest {
-	@Autowired
-	protected UserService userService;
-
 	/**
-	 * 
+	 *
 	 */
 	private static final String USER_NAME = "user";
 	private static final String ROLE_USER = "ROLE_USER";
-
+	@Autowired
+	protected UserService userService;
 	@Autowired
 	private UserGroupService userGroupService;
 	@Autowired
@@ -37,7 +35,7 @@ public class UserTest extends AbstractSecurityTest {
 	
 	@Before
 	public void setup() {
-		userService.createUserWithAuthority(USER_NAME, ROLE_USER);
+		userService.createUserWithAuthority(USER_NAME, USER_NAME, ROLE_USER);
 		user = jdbcUserDetailsManager.loadUserByUsername(USER_NAME);
 		userService.setAuthentication(USER_NAME);
 	}

@@ -78,11 +78,11 @@ public class UserServiceImpl extends ApplicationObjectSupport implements
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 	}
 	@Override
-	public void createUserWithAuthority(String username, String authority) {
+	public void createUserWithAuthority(String username, String password, String authority) {
 		if (!jdbcUserDetailsManager.userExists(username)) {
 			List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 			grantedAuthorities.add(new SimpleGrantedAuthority(authority));
-			UserDetails userDetails = new User(username, username, grantedAuthorities);
+			UserDetails userDetails = new User(username, password, grantedAuthorities);
 			jdbcUserDetailsManager.createUser(userDetails);
 		}
 	}

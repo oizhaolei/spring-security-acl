@@ -27,21 +27,22 @@ import java.util.List;
 public interface UserService {
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public List<String> findAllUsers();
+	List<String> findAllUsers();
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public List<String> findAllAuthorities();
+	List<String> findAllAuthorities();
 
 	/**
 	 * @param username
+	 * @param password
 	 * @param authority
 	 */
-	public void createUserWithAuthority(String username, String authority);
+	void createUserWithAuthority(String username, String password, String authority);
 
 	/**
 	 * Efetua a autenticação de um usuário já existente, buscando-o através do <code>loadUserByUsername</code>.
 	 *
 	 * @param username Username a ser autenticado.
 	 */
-	public void setAuthentication(String username);
+	void setAuthentication(String username);
 
 }
