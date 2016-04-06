@@ -76,12 +76,16 @@
                 </tbody>
             </table>
         </p>
-        <p><a th:href="@{/admin/menu_add.html}">Add Menus</a>
-            <table>
+        <p><a th:href="@{/admin/menu_add.html}">Add Menu</a>
+        <table id="menus">
                 <tbody>
                 <tr th:each="menu,rowStat : ${menus}">
                     <td th:text="${rowStat.count}">1</td>
                     <td><a th:href="@{/admin/menu.html(menu=${menu.id})}" th:text="${menu.name}">Thymus Thymi</a></td>
+                    <td th:text="${menu.path}">path</td>
+                    <td>
+                        <a>-</a>
+                    </td>
                     <td th:text="${menu.path}">path</td>
                 </tr>
                 </tbody>

@@ -36,11 +36,13 @@ apply plugin: 'jdepend'
 //apply plugin: 'pmd'
 //apply plugin: 'findbugs'
 apply plugin: "jacoco"
+apply plugin: "groovy"
 
 war {
     baseName = "sample"
 }
 jettyRun {
+    daemon = true
     reload = "automatic"
     scanIntervalSeconds = 1
 }
@@ -52,18 +54,31 @@ ext.slf4jVersion = '1.7.7'
 ext.ehcacheVersion = '2.9.0'
 ext.logbackVersion = '1.1.2'
 
-ext.jstlDependencies = [
-        "javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:$jstlVersion",
-        "org.apache.taglibs:taglibs-standard-jstlel:1.2.1"
-]
+ext {
+    // The drivers we want to use
+    drivers = ["firefox", "chrome", "phantomJs"]
+
+    ext {
+        groovyVersion = '2.4.5'
+        gebVersion = '0.13.1'
+        seleniumVersion = '2.52.0'
+        phantomJsVersion = '1.9.7'
+    }
+}
 repositories {
     mavenCentral()
     maven { url "https://repo.spring.io/libs-snapshot" }
     maven { url "https://repo.spring.io/plugins-release" }
     maven { url "http://repo.terracotta.org/maven2/" }
 }
-
-
+compileGroovy {
+    groovyOptions.forkOptions.jvmArgs = ['-noverify']
+}
+test {
+    jvmArgs '-noverify'
+    systemProperties "geb.build.reportsDir": "$reportsDir/geb"
+    systemProperties "geb.build.baseUrl": "http://localhost:8080/sample/"
+}
 dependencies {
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
 
@@ -79,12 +94,12 @@ dependencies {
             'org.codehaus.groovy:groovy-all:2.4.6',
             "org.springframework:spring-webmvc:$springVersion"
 
-
     runtime 'org.springframework.security:spring-security-web:4.0.4.RELEASE',
             'org.springframework.security:spring-security-config:4.0.4.RELEASE',
             'org.springframework.security:spring-security-taglibs:4.0.4.RELEASE',
             "org.springframework:spring-context-support:$springVersion",
-            jstlDependencies,
+            "javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:$jstlVersion",
+            "org.apache.taglibs:taglibs-standard-jstlel:1.2.1",
             'mysql:mysql-connector-java:5.1.35',
             'org.thymeleaf:thymeleaf:2.1.4.RELEASE',
             'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE',
@@ -93,6 +108,15 @@ dependencies {
             "net.sf.ehcache:ehcache:$ehcacheVersion"
 
     testCompile 'junit:junit:4.12',
+            'net.sourceforge.htmlunit:htmlunit:2.20',
+            'net.sourceforge.htmlunit:htmlunit-core-js:2.17',
             "org.springframework:spring-test:$springVersion",
-            'org.assertj:assertj-core:3.4.0'
+            'org.seleniumhq.selenium:selenium-htmlunit-driver:2.52.0',
+            'org.assertj:assertj-core:3.4.0',
+            "org.gebish:geb-spock:$gebVersion",
+            "org.spockframework:spock-core:1.0-groovy-2.4",
+            "org.gebish:geb-junit4:$gebVersion",
+            "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion",
+            "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion",
+            "com.codeborne:phantomjsdriver:1.2.1"
 }
