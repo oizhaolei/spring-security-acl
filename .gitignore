@@ -28,6 +28,4 @@ crashlytics-build.properties
 fabric.properties
 
 build/
-spring-security-samples-contacts-xml.iml
-spring-security-samples-contacts-xml.ipr
 target/

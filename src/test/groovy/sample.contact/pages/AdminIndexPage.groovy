@@ -28,7 +28,7 @@ class AdminIndexPage extends Page {
     static content = {
         AddMenu(to: AddMenuPage) { $('a', text: 'Add Menu') }
         menus { moduleList Menu, $("table#menus tr").tail() }
-        logout { $("input[type=submit]", value: "Logoff") }
+        logout { $("a", text: "Logout") }
     }
 }
 
