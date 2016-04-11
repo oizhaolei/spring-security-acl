@@ -42,28 +42,26 @@ war {
     baseName = "sample"
 }
 jettyRun {
-    daemon = true
     reload = "automatic"
     scanIntervalSeconds = 1
 }
 
-ext.springVersion = '4.2.5.RELEASE'
-ext.jstlVersion = '1.2.1'
-ext.hsqlVersion = '2.3.2'
-ext.slf4jVersion = '1.7.7'
-ext.ehcacheVersion = '2.9.0'
-ext.logbackVersion = '1.1.2'
 
 ext {
+    springVersion = '4.2.5.RELEASE'
+    springSecurityVersion = '4.0.4.RELEASE'
+    jstlVersion = '1.2.1'
+    hsqlVersion = '2.3.2'
+    slf4jVersion = '1.7.7'
+    ehcacheVersion = '2.9.0'
+    logbackVersion = '1.1.2'
     // The drivers we want to use
     drivers = ["firefox", "chrome", "phantomJs"]
 
-    ext {
-        groovyVersion = '2.4.5'
-        gebVersion = '0.13.1'
-        seleniumVersion = '2.52.0'
-        phantomJsVersion = '1.9.7'
-    }
+    groovyVersion = '2.4.6'
+    gebVersion = '0.13.1'
+    seleniumVersion = '2.52.0'
+    phantomJsVersion = '1.9.7'
 }
 repositories {
     mavenCentral()
@@ -82,8 +80,8 @@ test {
 dependencies {
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
 
-    compile 'org.springframework.security:spring-security-core:4.0.4.RELEASE',
-            'org.springframework.security:spring-security-acl:4.0.4.RELEASE',
+    compile "org.springframework.security:spring-security-core:$springSecurityVersion",
+            "org.springframework.security:spring-security-acl:$springSecurityVersion",
             "org.springframework:spring-aop:$springVersion",
             "org.springframework:spring-beans:$springVersion",
             "org.springframework:spring-context:$springVersion",
@@ -91,28 +89,28 @@ dependencies {
             "org.slf4j:jcl-over-slf4j:$slf4jVersion",
             "org.springframework:spring-tx:$springVersion",
             "org.springframework:spring-web:$springVersion",
-            'org.codehaus.groovy:groovy-all:2.4.6',
+            "org.codehaus.groovy:groovy-all:$groovyVersion",
             "org.springframework:spring-webmvc:$springVersion"
 
-    runtime 'org.springframework.security:spring-security-web:4.0.4.RELEASE',
-            'org.springframework.security:spring-security-config:4.0.4.RELEASE',
-            'org.springframework.security:spring-security-taglibs:4.0.4.RELEASE',
+    runtime "org.springframework.security:spring-security-web:$springSecurityVersion",
+            "org.springframework.security:spring-security-config:$springSecurityVersion",
+            "org.springframework.security:spring-security-taglibs:$springSecurityVersion",
             "org.springframework:spring-context-support:$springVersion",
             "javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:$jstlVersion",
             "org.apache.taglibs:taglibs-standard-jstlel:1.2.1",
-            'mysql:mysql-connector-java:5.1.35',
-            'org.thymeleaf:thymeleaf:2.1.4.RELEASE',
-            'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE',
-            'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE',
+            "mysql:mysql-connector-java:5.1.35",
+            "org.thymeleaf:thymeleaf:2.1.4.RELEASE",
+            "org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE",
+            "org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE",
             "ch.qos.logback:logback-classic:$logbackVersion",
             "net.sf.ehcache:ehcache:$ehcacheVersion"
 
-    testCompile 'junit:junit:4.12',
-            'net.sourceforge.htmlunit:htmlunit:2.20',
-            'net.sourceforge.htmlunit:htmlunit-core-js:2.17',
+    testCompile "junit:junit:4.12",
+            "net.sourceforge.htmlunit:htmlunit:2.20",
+            "net.sourceforge.htmlunit:htmlunit-core-js:2.17",
             "org.springframework:spring-test:$springVersion",
-            'org.seleniumhq.selenium:selenium-htmlunit-driver:2.52.0',
-            'org.assertj:assertj-core:3.4.0',
+            "org.seleniumhq.selenium:selenium-htmlunit-driver:2.52.0",
+            "org.assertj:assertj-core:3.4.0",
             "org.gebish:geb-spock:$gebVersion",
             "org.spockframework:spock-core:1.0-groovy-2.4",
             "org.gebish:geb-junit4:$gebVersion",

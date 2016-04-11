@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>Thymeleafexamples - Spring security</title>
         <meta charset="utf-8" />
@@ -10,7 +11,9 @@
              sec:authorize="isAuthenticated()">
             Logged user: <span sec:authentication="name">Bob</span> |
             Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span> |
-            <a href="index.html" th:href="@{/login.html?logout}">Logout</a>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="LOGOUT"/>
+            </form>
         </div>
         <h1>Thymeleafexamples - Spring security</h1>
         <p>This is a demo of Thymeleaf and Spring-security integration.</p>

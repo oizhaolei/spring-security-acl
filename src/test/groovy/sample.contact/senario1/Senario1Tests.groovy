@@ -1,22 +1,13 @@
 /*
- * Copyright 2011 the original author or authors.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *		http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 package sample.contact
 
-import geb.spock.*
-import sample.contact.pages.*
+import geb.spock.GebReportingSpec
+import sample.contact.senario1.AdminIndexPage
+import sample.contact.senario1.HomePage
+import sample.contact.senario1.LoginPage
 import spock.lang.Stepwise
 
 /**
@@ -25,16 +16,28 @@ import spock.lang.Stepwise
  * @author Rob Winch
  */
 @Stepwise
-class ContactsTests extends GebReportingSpec {
+class Senario1Tests extends GebReportingSpec {
     def 'access home page with unauthenticated user success'() {
         when: 'Unauthenticated user accesses the Home Page'
-        to HomePage
+        go HomePage.url
         then: 'The page is displayed'
         at HomePage
+        pagename == "index"
+    }
+
+    def 'access admin page with unauthenticated user success'() {
+        when: 'Unauthenticated user accesses the Home Page'
+        go AdminIndexPage.url
+        then: 'The login page is displayed'
+        at LoginPage
+        pagename == "login"
     }
 
     def 'access manage page with unauthenticated user sends to login page'() {
+        go HomePage.url
         when: 'Unauthenticated user accesses the Manage Page'
+        then: 'The page is displayed'
+        at HomePage
         admin.click(LoginPage)
         then: 'The login page is displayed'
         at LoginPage

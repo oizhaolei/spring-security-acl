@@ -48,10 +48,7 @@ public class DataSourcePopulator implements InitializingBean {
 	// ~ Instance fields
 	// ================================================================================================
 
-	JdbcTemplate template;
-	private MutableAclService mutableAclService;
 	final Random rnd = new Random();
-	TransactionTemplate tt;
 	final String[] firstNames = {"Bob", "Mary", "James", "Jane", "Kristy", "Kirsty",
 			"Kate", "Jeni", "Angela", "Melanie", "Kent", "William", "Geoff", "Jeff",
 			"Adrian", "Amanda", "Lisa", "Elizabeth", "Prue", "Richard", "Darin",
@@ -60,6 +57,9 @@ public class DataSourcePopulator implements InitializingBean {
 			"Fitzgerald", "McAlpine", "Sutherland", "Abbott", "Hall", "Edwards", "Gates",
 			"Black", "Brown", "Gray", "Marwell", "Booch", "Johnson", "McTaggart",
 			"Parklin", "Findlay", "Robinson", "Giugni", "Lang", "Chi", "Carmichael"};
+	JdbcTemplate template;
+	TransactionTemplate tt;
+	private MutableAclService mutableAclService;
 	private int createEntities = 50;
 
 	// ~ Methods
@@ -204,6 +204,10 @@ public class DataSourcePopulator implements InitializingBean {
 		return createEntities;
 	}
 
+	public void setCreateEntities(int createEntities) {
+		this.createEntities = createEntities;
+	}
+
 	private void grantPermissions(int contactNumber, String recipientUsername,
 								  Permission permission) {
 		AclImpl acl = (AclImpl) mutableAclService.readAclById(new ObjectIdentityImpl(
@@ -218,10 +222,6 @@ public class DataSourcePopulator implements InitializingBean {
 		String lastName = lastNames[rnd.nextInt(lastNames.length)];
 
 		return new String[]{firstName, lastName, firstName + " " + lastName};
-	}
-
-	public void setCreateEntities(int createEntities) {
-		this.createEntities = createEntities;
 	}
 
 	public void setDataSource(DataSource dataSource) {
